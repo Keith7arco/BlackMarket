@@ -18,6 +18,8 @@ import javax.swing.JOptionPane;
  */
 public class frmInicio extends javax.swing.JFrame {
 
+    //Variable util para Mostrar Contraseña
+    private char i='•';
     
     public frmInicio() {
         initComponents();
@@ -38,7 +40,7 @@ public class frmInicio extends javax.swing.JFrame {
         jLabel6 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
         txtPassword = new javax.swing.JPasswordField();
-        jCheckBox1 = new javax.swing.JCheckBox();
+        chkMostrarPass = new javax.swing.JCheckBox();
         jButton2 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -106,9 +108,14 @@ public class frmInicio extends javax.swing.JFrame {
         txtPassword.setForeground(new java.awt.Color(255, 255, 255));
         txtPassword.setBorder(null);
 
-        jCheckBox1.setBackground(new java.awt.Color(51, 0, 0));
-        jCheckBox1.setForeground(new java.awt.Color(255, 255, 255));
-        jCheckBox1.setText("Mostrar Contraseña");
+        chkMostrarPass.setBackground(new java.awt.Color(51, 0, 0));
+        chkMostrarPass.setForeground(new java.awt.Color(255, 255, 255));
+        chkMostrarPass.setText("Mostrar Contraseña");
+        chkMostrarPass.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                chkMostrarPassActionPerformed(evt);
+            }
+        });
 
         jButton2.setBackground(new java.awt.Color(51, 0, 0));
         jButton2.setFont(new java.awt.Font("Segoe UI Black", 0, 14)); // NOI18N
@@ -131,7 +138,7 @@ public class frmInicio extends javax.swing.JFrame {
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(41, 41, 41)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jCheckBox1)
+                            .addComponent(chkMostrarPass)
                             .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                 .addComponent(jLabel5)
                                 .addComponent(jLabel4)
@@ -186,7 +193,7 @@ public class frmInicio extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jCheckBox1)
+                .addComponent(chkMostrarPass)
                 .addGap(18, 18, 18)
                 .addComponent(btnIngresar)
                 .addContainerGap(175, Short.MAX_VALUE))
@@ -231,10 +238,12 @@ public class frmInicio extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(null,"Login Correcto, Bienvenido "+user);
                 if(tipo.equals("Vendedor")){
                     frmVendedor frmvendedor=new frmVendedor();
+                    frmvendedor.setDatos(user);
                     frmvendedor.setVisible(true);
                     this.dispose();
                 }else{
                     frmComprador frmcomprador=new frmComprador();
+                    frmcomprador.setDatos(user);
                     frmcomprador.setVisible(true);
                     this.dispose();
                 }
@@ -258,6 +267,14 @@ public class frmInicio extends javax.swing.JFrame {
         System.exit(0);
     }//GEN-LAST:event_jButton2ActionPerformed
 
+    private void chkMostrarPassActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chkMostrarPassActionPerformed
+        if (chkMostrarPass.isSelected()) {
+        txtPassword.setEchoChar((char) 0);
+        } else  {
+             txtPassword.setEchoChar (i);
+        }
+    }//GEN-LAST:event_chkMostrarPassActionPerformed
+
     public static void main(String args[]) {
         
         java.awt.EventQueue.invokeLater(new Runnable() {
@@ -269,8 +286,8 @@ public class frmInicio extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnIngresar;
+    private javax.swing.JCheckBox chkMostrarPass;
     private javax.swing.JButton jButton2;
-    private javax.swing.JCheckBox jCheckBox1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
