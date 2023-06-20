@@ -25,4 +25,9 @@ public class Conexion {
         }
         return conexion;
     }
+    public void Desconectar(){
+        try{
+            this.conexion.close();
+        }catch(Exception e){}
+    }
 }
