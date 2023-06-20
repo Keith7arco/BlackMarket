@@ -5,18 +5,14 @@
 package blackmarket.forms;
 
 import blackmarket.Conexion;
-import java.awt.Image;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.sql.Connection;
-import java.io.File;
-import java.io.FileInputStream;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.HashMap;
 import java.util.Map;
-import javax.swing.ImageIcon;
-import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
-import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -24,9 +20,9 @@ import javax.swing.table.DefaultTableModel;
  * @author tarco
  */
 public class frmComprador extends javax.swing.JFrame {
-    
-    //DATOS DEL LOGIN
+        
     private String nombre;
+    private int estado;
     private Map<Integer, Integer> carrito; // Mapa para almacenar los productos en el carrito (ID del producto y cantidad)
     
     public frmComprador() {
@@ -79,6 +75,9 @@ public class frmComprador extends javax.swing.JFrame {
     public void setDatos(String dato){
         this.nombre=dato;
         txtComprador.setText(dato);
+    }
+    public void confirmacion(int estado){
+        this.estado=estado;
     }
 
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -159,8 +158,10 @@ public class frmComprador extends javax.swing.JFrame {
         tablaCarrito.setDebugGraphicsOptions(javax.swing.DebugGraphics.BUFFERED_OPTION);
         scrollPaneCarrito.setViewportView(tablaCarrito);
 
+        txtIGV.setForeground(new java.awt.Color(255, 255, 255));
         txtIGV.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
 
+        txtMontoTotal.setForeground(new java.awt.Color(255, 255, 255));
         txtMontoTotal.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
 
         btnProcesarCompra.setText("PROCESAR LA COMPRA");
@@ -223,8 +224,8 @@ public class frmComprador extends javax.swing.JFrame {
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addComponent(btnAgregarCarrito)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(scrollPaneCarrito, javax.swing.GroupLayout.PREFERRED_SIZE, 294, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(24, 24, 24)
+                        .addComponent(scrollPaneCarrito, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
                         .addComponent(txtIGV, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED))
                     .addGroup(jPanel1Layout.createSequentialGroup()
@@ -320,31 +321,18 @@ public class frmComprador extends javax.swing.JFrame {
 
     private void btnProcesarCompraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnProcesarCompraActionPerformed
         if (carrito.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "El carrito está vacío");
+            JOptionPane.showMessageDialog(this, "El carrito está vacío...");
             return;
         }
-        for (Map.Entry<Integer, Integer> entry : carrito.entrySet()) {
-            int idProducto = entry.getKey();
-            int cantidad = entry.getValue();
-            disminuirStock(idProducto, cantidad);
-            // Limpiar el carrito
-            carrito.clear();
-            actualizarTablaCarrito();
-
-            // Calcular el monto total
-            float montoTotal = calcularMontoTotal();
-            float igv=(float) (montoTotal*0.18);
-            txtIGV.setText("IGV: S/."+igv);
-            txtMontoTotal.setText("Monto Total: S/." + (montoTotal+igv));
-
-            // Mostrar mensaje de compra exitosa
-            JOptionPane.showMessageDialog(this, "¡Compra realizada con éxito!");
-
-            // Actualizar la tabla de productos
-            mostrarProductos();
-            frmMetodoPago metodoPagoForm = new frmMetodoPago();
-            metodoPagoForm.setVisible(true);
-        }
+        frmMetodoPago metodoPagoForm = new frmMetodoPago();
+        metodoPagoForm.setVisible(true);
+        metodoPagoForm.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosed(WindowEvent e) {
+                verificarFormularioSecundario(metodoPagoForm);
+                
+            }
+        });
     }//GEN-LAST:event_btnProcesarCompraActionPerformed
 
     private void actualizarTablaCarrito() {
@@ -449,6 +437,31 @@ public class frmComprador extends javax.swing.JFrame {
             cn.close();
         } catch (Exception e) {
             System.out.println(e.getMessage());
+        }
+    }
+    public void verificarFormularioSecundario(frmMetodoPago frmMP) {
+        // Aquí puedes verificar si el formulario secundario se cerró correctamente
+        if (frmMP.isFormularioCompletado()) {
+            for (Map.Entry<Integer, Integer> entry : carrito.entrySet()) {
+                int idProducto = entry.getKey();
+                int cantidad = entry.getValue();
+                disminuirStock(idProducto, cantidad);
+                // Limpiar el carrito
+                carrito.clear();
+                actualizarTablaCarrito();
+
+                // Calcular el monto total
+                float montoTotal = calcularMontoTotal();
+                float igv=(float) (montoTotal*0.18);
+                txtIGV.setText("IGV: S/."+igv);
+                txtMontoTotal.setText("Monto Total: S/." + (montoTotal+igv));
+
+                // Actualizar la tabla de productos
+                mostrarProductos();
+            }
+            System.out.println("El metodo de pago se completó correctamente.");
+        } else {
+            System.out.println("El metodo de pago no se completó correctamente.");
         }
     }
     

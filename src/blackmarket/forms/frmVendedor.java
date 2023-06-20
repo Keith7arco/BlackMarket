@@ -10,7 +10,6 @@ import java.sql.Connection;
 import java.awt.Image;
 import java.io.File;
 import java.io.FileInputStream;
-import java.sql.ResultSet;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.swing.ImageIcon;
@@ -71,11 +70,11 @@ public class frmVendedor extends javax.swing.JFrame {
 
         txtProducto.setBackground(new java.awt.Color(102, 102, 102));
         txtProducto.setForeground(new java.awt.Color(255, 255, 255));
-        txtProducto.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        txtProducto.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
         txtCategoria.setBackground(new java.awt.Color(102, 102, 102));
         txtCategoria.setForeground(new java.awt.Color(255, 255, 255));
-        txtCategoria.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        txtCategoria.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
         btnGuardar.setBackground(new java.awt.Color(102, 153, 0));
         btnGuardar.setForeground(new java.awt.Color(255, 255, 255));
@@ -90,7 +89,7 @@ public class frmVendedor extends javax.swing.JFrame {
 
         txtImagen.setBackground(new java.awt.Color(102, 102, 102));
         txtImagen.setForeground(new java.awt.Color(255, 255, 255));
-        txtImagen.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        txtImagen.setBorder(javax.swing.BorderFactory.createEtchedBorder());
         txtImagen.setEnabled(false);
 
         jLabel1.setFont(new java.awt.Font("Segoe UI Variable", 0, 18)); // NOI18N
@@ -182,7 +181,7 @@ public class frmVendedor extends javax.swing.JFrame {
 
         txtPrecio.setBackground(new java.awt.Color(102, 102, 102));
         txtPrecio.setForeground(new java.awt.Color(255, 255, 255));
-        txtPrecio.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        txtPrecio.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -350,7 +349,7 @@ public class frmVendedor extends javax.swing.JFrame {
         if("".equals(txtCategoria.getText())){
             JOptionPane.showMessageDialog(this, "Ingrese la categoria del producto.");
         }else
-        if("".equals(txtPrecio.getText())||validarNumeros(txtPrecio.getText())==false){
+        if("".equals(txtPrecio.getText())||!validarNumeros(txtPrecio.getText())){
             JOptionPane.showMessageDialog(this, "Ingrese el precio correctamente.");
         }else
         if(txtCantidad.getValue().equals(0)){
@@ -368,7 +367,7 @@ public class frmVendedor extends javax.swing.JFrame {
                 pst.setFloat(4,Float.parseFloat(txtPrecio.getText()));
                 pst.setBinaryStream(5,archivoImg,archivoImg.available());
                 pst.executeUpdate();
-                JOptionPane.showConfirmDialog(null, "Producto Publicado con Exito!!");
+                JOptionPane.showMessageDialog(null, "Producto Publicado con Exito!!");
                 
             }catch(Exception e){
                 System.out.println(e.getMessage());
