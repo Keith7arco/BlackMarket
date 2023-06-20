@@ -4,8 +4,9 @@
  */
 package blackmarket;
 
-import java.sql.DriverManager;
+import com.mysql.cj.jdbc.MysqlDataSource;
 import java.sql.Connection;
+import java.sql.SQLException;
 import javax.swing.JOptionPane;
 
 /**
@@ -15,19 +16,29 @@ import javax.swing.JOptionPane;
 public class Conexion {
     Connection conexion=null;
     public Connection Conectar(){
-        try{
-            Class.forName("com.mysql.cj.jdbc.Driver");
-            conexion=DriverManager.getConnection("jdbc:mysql://localhost:3306/BLACKMARKET?serverTimezone=UTC","root","1234");     
-        
-        }catch(Exception e){
-            JOptionPane.showMessageDialog(null,"Error: "+e.toString());
-            e.printStackTrace();
+        try {
+            MysqlDataSource dataSource = new MysqlDataSource();
+            dataSource.setServerName("localhost");
+            dataSource.setPort(3306);
+            dataSource.setDatabaseName("BLACKMARKET");
+            dataSource.setUser("root");
+            dataSource.setPassword("1234");
+            dataSource.setServerTimezone("UTC");
+
+            conexion = dataSource.getConnection();
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "Error: " + e.toString());
         }
         return conexion;
     }
     public void Desconectar(){
-        try{
-            this.conexion.close();
-        }catch(Exception e){}
+        try {
+            if (conexion != null) {
+                conexion.close();
+            }
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "Error al cerrar la conexión: " + e.toString());
+        }
     }
+    
 }

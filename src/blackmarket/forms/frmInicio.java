@@ -6,11 +6,8 @@ package blackmarket.forms;
 
 import blackmarket.Conexion;
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.ResultSetMetaData;
-import java.sql.SQLException;
 import javax.swing.JOptionPane;
 /**
  *
@@ -83,6 +80,7 @@ public class frmInicio extends javax.swing.JFrame {
         jLabel5.setText("Contraseña:");
 
         txtUsuario.setBackground(new java.awt.Color(51, 0, 0));
+        txtUsuario.setFont(new java.awt.Font("Segoe UI Semibold", 0, 12)); // NOI18N
         txtUsuario.setForeground(new java.awt.Color(255, 255, 255));
         txtUsuario.setBorder(null);
 
@@ -105,6 +103,7 @@ public class frmInicio extends javax.swing.JFrame {
         jLabel7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/blackmarket/images/padlock (1).png"))); // NOI18N
 
         txtPassword.setBackground(new java.awt.Color(51, 0, 0));
+        txtPassword.setFont(new java.awt.Font("Segoe UI Semibold", 0, 12)); // NOI18N
         txtPassword.setForeground(new java.awt.Color(255, 255, 255));
         txtPassword.setBorder(null);
 
@@ -235,7 +234,8 @@ public class frmInicio extends javax.swing.JFrame {
                 tipo=rs.getString(3);
             }
             if(user.equals(usuarioCorrecto)&& pass.equals(passCorrecto)){
-                JOptionPane.showMessageDialog(null,"Login Correcto, Bienvenido "+user);
+                JOptionPane.showMessageDialog(null, "Inicio de sesión exitoso, Bienvenido "+user, "Login",
+                        JOptionPane.INFORMATION_MESSAGE);
                 if(tipo.equals("Vendedor")){
                     frmVendedor frmvendedor=new frmVendedor();
                     frmvendedor.setDatos(user);
