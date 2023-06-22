@@ -4,6 +4,7 @@
  */
 package blackmarket.forms;
 
+import java.util.Calendar;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.swing.JOptionPane;
@@ -16,6 +17,9 @@ import javax.swing.JOptionPane;
 public class Tarjeta extends javax.swing.JPanel {
 
     private boolean pagado;
+    Calendar calendar = Calendar.getInstance();
+    int mesActual = calendar.get(Calendar.MONTH) + 1;
+    int anoActual = calendar.get(Calendar.YEAR);
     public Tarjeta() {
         initComponents();
     }
@@ -198,9 +202,12 @@ public class Tarjeta extends javax.swing.JPanel {
             JOptionPane.showMessageDialog(this, "Ingrese el nombre del titular.");
         }else if("".equals(txtMes.getText())||!validarNumeros(txtMes.getText())||Integer.parseInt(txtMes.getText())<1 || Integer.parseInt(txtMes.getText())>12){
             JOptionPane.showMessageDialog(this, "Ingrese el mes correctamente");
-        }else if("".equals(txtAno.getText())||!validarNumeros(txtAno.getText())||Integer.parseInt(txtAno.getText())<1 || Integer.parseInt(txtAno.getText())>12){
+        }else if("".equals(txtAno.getText())||!validarNumeros(txtAno.getText())||Integer.parseInt(txtAno.getText())<1 || Integer.parseInt(txtAno.getText())>anoActual%100){
             JOptionPane.showMessageDialog(this, "Ingrese el año correctamente");
-        }else if(!validarNumeros(txtCCV.getText())||txtCCV.getText().length()==0 ||txtCCV.getText().length()<3){
+        }else if(Integer.parseInt(txtMes.getText())<=mesActual && Integer.parseInt(txtMes.getText())<=anoActual%100){
+            JOptionPane.showMessageDialog(this, "Verifique la fecha de caducidad de su tarjeta.");
+        }   
+        else if(!validarNumeros(txtCCV.getText())||txtCCV.getText().length()==0 ||txtCCV.getText().length()<3){
             JOptionPane.showMessageDialog(this, "Ingrese el CCV correctamente");
         }else{
             JOptionPane.showMessageDialog(this, "!Compra realizada correctamente!");

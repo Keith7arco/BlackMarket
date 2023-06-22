@@ -40,6 +40,9 @@ public class frmMetodoPago extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setUndecorated(true);
 
+        btnYape.setBackground(new java.awt.Color(115, 39, 125));
+        btnYape.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        btnYape.setIcon(new javax.swing.ImageIcon(getClass().getResource("/blackmarket/images/qr-code.png"))); // NOI18N
         btnYape.setText("Pago por Yape");
         btnYape.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -47,6 +50,9 @@ public class frmMetodoPago extends javax.swing.JFrame {
             }
         });
 
+        btnTarjeta.setBackground(new java.awt.Color(153, 153, 255));
+        btnTarjeta.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        btnTarjeta.setIcon(new javax.swing.ImageIcon(getClass().getResource("/blackmarket/images/tarjetaLog.png"))); // NOI18N
         btnTarjeta.setText("Pago por Tarjeta");
         btnTarjeta.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -86,7 +92,7 @@ public class frmMetodoPago extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGap(76, 76, 76)
                 .addComponent(btnTarjeta, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 12, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(btnYape, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(42, 42, 42)
                 .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -147,6 +153,8 @@ public class frmMetodoPago extends javax.swing.JFrame {
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         if(JOptionPane.YES_OPTION==JOptionPane.showConfirmDialog(null,"¿Esta seguro de continuar?")){
             verificarPago();
+            this.dispose();
+        }else{
             this.dispose();
         }    
     }//GEN-LAST:event_jButton2ActionPerformed
