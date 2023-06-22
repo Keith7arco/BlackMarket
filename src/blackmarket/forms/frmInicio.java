@@ -9,10 +9,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import javax.swing.JOptionPane;
-/**
- *
- * @author tarco
- */
+
 public class frmInicio extends javax.swing.JFrame {
 
     //Variable util para Mostrar Contraseña

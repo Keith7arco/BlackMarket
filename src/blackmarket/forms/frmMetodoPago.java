@@ -8,10 +8,7 @@ import blackmarket.clases.PanelCallback;
 import java.awt.BorderLayout;
 import javax.swing.JOptionPane;
 
-/**
- *
- * @author tarco
- */
+
 public class frmMetodoPago extends javax.swing.JFrame implements PanelCallback{
 
     private boolean formularioCompletado;
@@ -132,10 +129,17 @@ public class frmMetodoPago extends javax.swing.JFrame implements PanelCallback{
     }
     
     private void verificarPago(){
-        boolean completadas1 = mp1.actividadesCompletadas();
-        boolean completadas2 = mp2.actividadesCompletadas();
-        if(completadas1 || completadas2){
+        if (mp1 != null) {
+            boolean completadas1=mp1.actividadesCompletadas();
+            if(completadas1){
             formularioCompletado=true;
+            }
+        if (mp2 != null) {
+            boolean completadas2=mp2.actividadesCompletadas();
+            if(completadas2){
+            formularioCompletado=true;
+                }
+            }
         }
     }
     
@@ -166,16 +170,18 @@ public class frmMetodoPago extends javax.swing.JFrame implements PanelCallback{
     }//GEN-LAST:event_btnYapeActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        if(JOptionPane.showConfirmDialog(null, "¿Está seguro de proceder con la compra?", "Confirmar compra", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION){
-            verificarPago();
+        verificarPago();
+        if(JOptionPane.showConfirmDialog(null, "¿Está seguro de proceder con la compra?\nSi ya lo pagó pulse SI", "Confirmar compra", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION){
             if(formularioCompletado==false){
                 JOptionPane.showMessageDialog(this, "Metodo de pago no colocado.");
             }else{
                 this.dispose();
             }    
+        }else if(formularioCompletado==true){
+            JOptionPane.showMessageDialog(this, "La compra ya ha sido registrada con su metodo de pago...");
         }else{
             this.dispose();
-        }    
+        }   
     }//GEN-LAST:event_jButton2ActionPerformed
 
     public static void main(String args[]) {

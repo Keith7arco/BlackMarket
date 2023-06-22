@@ -11,10 +11,6 @@ import java.util.regex.Pattern;
 import javax.swing.JOptionPane;
 
 
-/**
- *
- * @author tarco
- */
 public class Tarjeta extends javax.swing.JPanel {
 
     private PanelCallback callback;
@@ -208,9 +204,9 @@ public class Tarjeta extends javax.swing.JPanel {
             JOptionPane.showMessageDialog(this, "Ingrese el nombre del titular.");
         }else if("".equals(txtMes.getText())||!validarNumeros(txtMes.getText())||Integer.parseInt(txtMes.getText())<1 || Integer.parseInt(txtMes.getText())>12){
             JOptionPane.showMessageDialog(this, "Ingrese el mes correctamente");
-        }else if("".equals(txtAno.getText())||!validarNumeros(txtAno.getText())||Integer.parseInt(txtAno.getText())<1 || Integer.parseInt(txtAno.getText())>anoActual%100){
+        }else if("".equals(txtAno.getText())||!validarNumeros(txtAno.getText())||Integer.parseInt(txtAno.getText())<1){
             JOptionPane.showMessageDialog(this, "Ingrese el año correctamente");
-        }else if(Integer.parseInt(txtMes.getText())<=mesActual && Integer.parseInt(txtMes.getText())<=anoActual%100){
+        }else if(Integer.parseInt(txtMes.getText())<=mesActual && Integer.parseInt(txtAno.getText())<=anoActual%100){
             JOptionPane.showMessageDialog(this, "Verifique la fecha de caducidad de su tarjeta.");
         }   
         else if(!validarNumeros(txtCCV.getText())||txtCCV.getText().length()==0 ||txtCCV.getText().length()<3){

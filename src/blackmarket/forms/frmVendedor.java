@@ -17,10 +17,7 @@ import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
-/**
- *
- * @author tarco
- */
+
 public class frmVendedor extends javax.swing.JFrame {
 
     //DATOS DEL LOGIN

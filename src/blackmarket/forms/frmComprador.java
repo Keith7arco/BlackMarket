@@ -15,10 +15,7 @@ import java.util.Map;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
-/**
- *
- * @author tarco
- */
+
 public class frmComprador extends javax.swing.JFrame {
         
     private String nombre;
@@ -96,6 +93,7 @@ public class frmComprador extends javax.swing.JFrame {
         txtMontoTotal = new javax.swing.JLabel();
         btnProcesarCompra = new javax.swing.JButton();
         jLabel7 = new javax.swing.JLabel();
+        jButton1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setUndecorated(true);
@@ -137,7 +135,12 @@ public class frmComprador extends javax.swing.JFrame {
         ));
         jScrollPane1.setViewportView(tablaProductos);
 
-        btnAgregarCarrito.setText("Añadir al Carrito");
+        btnAgregarCarrito.setBackground(new java.awt.Color(204, 102, 0));
+        btnAgregarCarrito.setForeground(new java.awt.Color(255, 255, 255));
+        btnAgregarCarrito.setIcon(new javax.swing.ImageIcon(getClass().getResource("/blackmarket/images/shopping-cart.png"))); // NOI18N
+        btnAgregarCarrito.setBorder(null);
+        btnAgregarCarrito.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnAgregarCarrito.setFocusPainted(false);
         btnAgregarCarrito.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnAgregarCarritoActionPerformed(evt);
@@ -175,6 +178,18 @@ public class frmComprador extends javax.swing.JFrame {
         jLabel7.setForeground(new java.awt.Color(255, 255, 255));
         jLabel7.setText("PRODUCTOS BLACKMARKET");
 
+        jButton1.setBackground(new java.awt.Color(204, 102, 0));
+        jButton1.setForeground(new java.awt.Color(255, 255, 255));
+        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/blackmarket/images/delete.png"))); // NOI18N
+        jButton1.setBorder(null);
+        jButton1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jButton1.setFocusPainted(false);
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -192,7 +207,10 @@ public class frmComprador extends javax.swing.JFrame {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(scrollPaneCarrito, javax.swing.GroupLayout.PREFERRED_SIZE, 291, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(btnAgregarCarrito, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addComponent(btnAgregarCarrito, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))))
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addComponent(jLabel2)
                                 .addGap(18, 18, 18)
@@ -222,7 +240,9 @@ public class frmComprador extends javax.swing.JFrame {
                         .addComponent(jLabel7)))
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addComponent(btnAgregarCarrito)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(btnAgregarCarrito)
+                            .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(scrollPaneCarrito, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
@@ -334,6 +354,25 @@ public class frmComprador extends javax.swing.JFrame {
             }
         });
     }//GEN-LAST:event_btnProcesarCompraActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // Obtener la fila seleccionada en la tabla de carrito
+        int filaSeleccionada = tablaCarrito.getSelectedRow();
+        if (filaSeleccionada == -1) {
+          JOptionPane.showMessageDialog(this, "Selecciona un producto del carrito");
+          return;
+        }
+        // Obtener el ID del producto seleccionado
+        int idProducto = (int) tablaCarrito.getValueAt(filaSeleccionada, 0);
+        // Eliminar el producto del carrito
+        carrito.remove(idProducto);
+        actualizarTablaCarrito();
+        // Calcular el monto total
+        float montoTotal = calcularMontoTotal();
+        float igv=(float) (montoTotal*0.18);
+        txtIGV.setText("IGV: S/."+igv);
+        txtMontoTotal.setText("Total: S/." + (montoTotal+igv));
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     private void actualizarTablaCarrito() {
         DefaultTableModel modeloTabla = new DefaultTableModel();
@@ -478,6 +517,7 @@ public class frmComprador extends javax.swing.JFrame {
     private javax.swing.JButton btnAgregarCarrito;
     private javax.swing.JButton btnCerrarSesion;
     private javax.swing.JButton btnProcesarCompra;
+    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JPanel jPanel1;

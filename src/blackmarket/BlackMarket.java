@@ -5,12 +5,7 @@
 package blackmarket;
 
 import blackmarket.forms.frmInicio;
-import java.sql.Connection;
 
-/**
- *
- * @author tarco
- */
 public class BlackMarket {
 
     public static void main(String[] args) {

@@ -9,10 +9,6 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import javax.swing.JOptionPane;
 
-/**
- *
- * @author tarco
- */
 public class Conexion {
     Connection conexion=null;
     public Connection Conectar(){

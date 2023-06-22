@@ -4,10 +4,6 @@
  */
 package blackmarket.clases;
 
-/**
- *
- * @author tarco
- */
 public interface PanelCallback {
     void pagoCompleto(boolean pagoCompleto);
 }

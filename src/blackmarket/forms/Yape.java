@@ -7,10 +7,7 @@ package blackmarket.forms;
 import blackmarket.clases.PanelCallback;
 import javax.swing.JOptionPane;
 
-/**
- *
- * @author tarco
- */
+
 public class Yape extends javax.swing.JPanel {
     
     private PanelCallback callback;
