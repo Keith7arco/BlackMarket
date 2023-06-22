@@ -4,6 +4,7 @@
  */
 package blackmarket.forms;
 
+import blackmarket.clases.PanelCallback;
 import javax.swing.JOptionPane;
 
 /**
@@ -11,11 +12,20 @@ import javax.swing.JOptionPane;
  * @author tarco
  */
 public class Yape extends javax.swing.JPanel {
-    private boolean pagado;
+    
+    private PanelCallback callback;
+    private boolean actividadesCompletadas;
     public Yape() {
         initComponents();
     }
 
+    public void setCallback(PanelCallback callback) {
+        this.callback = callback;
+    }
+    public boolean actividadesCompletadas() {
+        return actividadesCompletadas;
+    }
+    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -71,12 +81,13 @@ public class Yape extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    public boolean isPagado() {
-        return pagado;
-    }
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        JOptionPane.showMessageDialog(this, "¡Compra realizada correctamente!");
-        pagado=true;
+        JOptionPane.showMessageDialog(this, "¡Pago realizado correctamente!");
+        boolean pagoCompleto = true;
+        if (callback != null) {
+            callback.pagoCompleto(pagoCompleto);
+            actividadesCompletadas = true;
+        }
     }//GEN-LAST:event_jButton1ActionPerformed
 
 

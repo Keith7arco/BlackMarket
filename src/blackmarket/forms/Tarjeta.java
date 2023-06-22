@@ -4,6 +4,7 @@
  */
 package blackmarket.forms;
 
+import blackmarket.clases.PanelCallback;
 import java.util.Calendar;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -16,7 +17,8 @@ import javax.swing.JOptionPane;
  */
 public class Tarjeta extends javax.swing.JPanel {
 
-    private boolean pagado;
+    private PanelCallback callback;
+    private boolean actividadesCompletadas;
     Calendar calendar = Calendar.getInstance();
     int mesActual = calendar.get(Calendar.MONTH) + 1;
     int anoActual = calendar.get(Calendar.YEAR);
@@ -163,9 +165,13 @@ public class Tarjeta extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    public boolean isPagado() {
-        return pagado;
+    public void setCallback(PanelCallback callback) {
+        this.callback = callback;
     }
+    public boolean actividadesCompletadas() {
+        return actividadesCompletadas;
+    }
+    
     private void txtNumTarjetaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNumTarjetaKeyTyped
         if(txtNumTarjeta.getText().length() >= 16)
         {
@@ -210,11 +216,19 @@ public class Tarjeta extends javax.swing.JPanel {
         else if(!validarNumeros(txtCCV.getText())||txtCCV.getText().length()==0 ||txtCCV.getText().length()<3){
             JOptionPane.showMessageDialog(this, "Ingrese el CCV correctamente");
         }else{
-            JOptionPane.showMessageDialog(this, "!Compra realizada correctamente!");
-            pagado=true;
+            TarjetaCompleta();
         }        
     }//GEN-LAST:event_jButton1ActionPerformed
     
+    
+    void TarjetaCompleta(){
+        JOptionPane.showMessageDialog(this, "!Pago realizada correctamente!");
+            boolean pagoCompleto = true;
+            if (callback != null) {
+                callback.pagoCompleto(pagoCompleto);
+                actividadesCompletadas = true;
+            }
+    }
     private boolean validarNumeros(String inputText) {
         Pattern pattern = Pattern.compile("\\d"); // Expresión regular para buscar dígitos
         Matcher matcher = pattern.matcher(inputText);

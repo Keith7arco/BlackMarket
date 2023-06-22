@@ -4,6 +4,7 @@
  */
 package blackmarket.forms;
 
+import blackmarket.clases.PanelCallback;
 import java.awt.BorderLayout;
 import javax.swing.JOptionPane;
 
@@ -11,14 +12,19 @@ import javax.swing.JOptionPane;
  *
  * @author tarco
  */
-public class frmMetodoPago extends javax.swing.JFrame {
+public class frmMetodoPago extends javax.swing.JFrame implements PanelCallback{
 
     private boolean formularioCompletado;
+    private Tarjeta mp1;
+    private Yape mp2;
+    
     public frmMetodoPago() {
         initComponents();
         formularioCompletado = false;
 
-        Tarjeta mp1=new Tarjeta();
+        mp1=new Tarjeta();
+        mp1.setCallback((PanelCallback) this);
+   
         mp1.setSize(500, 420);
         mp1.setLocation(0, 0);
         
@@ -42,6 +48,7 @@ public class frmMetodoPago extends javax.swing.JFrame {
 
         btnYape.setBackground(new java.awt.Color(115, 39, 125));
         btnYape.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        btnYape.setForeground(new java.awt.Color(255, 255, 255));
         btnYape.setIcon(new javax.swing.ImageIcon(getClass().getResource("/blackmarket/images/qr-code.png"))); // NOI18N
         btnYape.setText("Pago por Yape");
         btnYape.addActionListener(new java.awt.event.ActionListener() {
@@ -52,6 +59,7 @@ public class frmMetodoPago extends javax.swing.JFrame {
 
         btnTarjeta.setBackground(new java.awt.Color(153, 153, 255));
         btnTarjeta.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        btnTarjeta.setForeground(new java.awt.Color(255, 255, 255));
         btnTarjeta.setIcon(new javax.swing.ImageIcon(getClass().getResource("/blackmarket/images/tarjetaLog.png"))); // NOI18N
         btnTarjeta.setText("Pago por Tarjeta");
         btnTarjeta.addActionListener(new java.awt.event.ActionListener() {
@@ -123,13 +131,18 @@ public class frmMetodoPago extends javax.swing.JFrame {
         return formularioCompletado;
     }
     
-    public void verificarPago() {
-        // Aquí puedes verificar si el formulario secundario se cerró correctamente
-        formularioCompletado=true;
+    private void verificarPago(){
+        boolean completadas1 = mp1.actividadesCompletadas();
+        boolean completadas2 = mp2.actividadesCompletadas();
+        if(completadas1 || completadas2){
+            formularioCompletado=true;
+        }
     }
     
     private void btnTarjetaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTarjetaActionPerformed
-        Tarjeta mp1=new Tarjeta();
+
+        mp1=new Tarjeta();
+        mp1.setCallback((PanelCallback) this);
         mp1.setSize(500, 420);
         mp1.setLocation(0, 0);
         
@@ -140,7 +153,9 @@ public class frmMetodoPago extends javax.swing.JFrame {
     }//GEN-LAST:event_btnTarjetaActionPerformed
 
     private void btnYapeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnYapeActionPerformed
-        Yape mp2=new Yape();
+
+        mp2=new Yape();
+        mp2.setCallback((PanelCallback) this);
         mp2.setSize(500, 420);
         mp2.setLocation(0, 0);
         
@@ -151,9 +166,13 @@ public class frmMetodoPago extends javax.swing.JFrame {
     }//GEN-LAST:event_btnYapeActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        if(JOptionPane.YES_OPTION==JOptionPane.showConfirmDialog(null,"¿Esta seguro de continuar?")){
+        if(JOptionPane.showConfirmDialog(null, "¿Está seguro de proceder con la compra?", "Confirmar compra", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION){
             verificarPago();
-            this.dispose();
+            if(formularioCompletado==false){
+                JOptionPane.showMessageDialog(this, "Metodo de pago no colocado.");
+            }else{
+                this.dispose();
+            }    
         }else{
             this.dispose();
         }    
@@ -197,4 +216,11 @@ public class frmMetodoPago extends javax.swing.JFrame {
     private javax.swing.JPanel content;
     private javax.swing.JButton jButton2;
     // End of variables declaration//GEN-END:variables
+
+    @Override
+    public void pagoCompleto(boolean pagoCompleto) {
+        if(pagoCompleto){
+            formularioCompletado=true;
+        } 
+    }
 }
