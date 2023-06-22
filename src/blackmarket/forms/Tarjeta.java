@@ -18,6 +18,7 @@ public class Tarjeta extends javax.swing.JPanel {
     Calendar calendar = Calendar.getInstance();
     int mesActual = calendar.get(Calendar.MONTH) + 1;
     int anoActual = calendar.get(Calendar.YEAR);
+    
     public Tarjeta() {
         initComponents();
     }
@@ -198,15 +199,24 @@ public class Tarjeta extends javax.swing.JPanel {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         //VALIDACIONES
+        int anoInput=23;
         if(!validarNumeros(txtNumTarjeta.getText())||txtNumTarjeta.getText().length()<16 || txtNumTarjeta.getText().length()==0){
             JOptionPane.showMessageDialog(this, "Ingrese los números correctamente.");
-        }else if("".equals(txtTitular.getText())){
+        }else if(txtTitular.getText().isEmpty()){
             JOptionPane.showMessageDialog(this, "Ingrese el nombre del titular.");
-        }else if("".equals(txtMes.getText())||!validarNumeros(txtMes.getText())||Integer.parseInt(txtMes.getText())<1 || Integer.parseInt(txtMes.getText())>12){
+        }else if(txtMes.getText().isEmpty()||!validarNumeros(txtMes.getText())||Integer.parseInt(txtMes.getText())<1 || Integer.parseInt(txtMes.getText())>12
+                || txtMes.getText().length()<2){
             JOptionPane.showMessageDialog(this, "Ingrese el mes correctamente");
-        }else if("".equals(txtAno.getText())||!validarNumeros(txtAno.getText())||Integer.parseInt(txtAno.getText())<1){
+        }else if(txtAno.getText().isEmpty()||!validarNumeros(txtAno.getText())||Integer.parseInt(txtAno.getText())<1||txtAno.getText().length()<2){
+            anoInput=Integer.parseInt(txtAno.getText());
+            //Validacion fechas antiguas como 1999
+            if(anoInput>anoActual%100+5){
+                anoInput+=1900;
+            }else{
+                anoInput+=2000;
+            }
             JOptionPane.showMessageDialog(this, "Ingrese el año correctamente");
-        }else if(Integer.parseInt(txtMes.getText())<=mesActual && Integer.parseInt(txtAno.getText())<=anoActual%100){
+        }else if(Integer.parseInt(txtMes.getText())<=mesActual && anoInput<anoActual || anoInput>anoActual+5){
             JOptionPane.showMessageDialog(this, "Verifique la fecha de caducidad de su tarjeta.");
         }   
         else if(!validarNumeros(txtCCV.getText())||txtCCV.getText().length()==0 ||txtCCV.getText().length()<3){
